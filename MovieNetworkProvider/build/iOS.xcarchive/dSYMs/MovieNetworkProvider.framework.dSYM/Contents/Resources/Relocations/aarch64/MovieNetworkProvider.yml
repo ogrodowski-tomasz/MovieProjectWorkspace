@@ -1,0 +1,9 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/tomaszogrodowski/Library/Developer/Xcode/DerivedData/MovieNetworkProvider-ckdwypimjmmqqoezofpfmqxjviuc/Build/Intermediates.noindex/ArchiveIntermediates/MovieNetworkProvider/InstallationBuildProductsLocation/Library/Frameworks/MovieNetworkProvider.framework/MovieNetworkProvider'
+relocations:
+  - { offset: 0x292E6, size: 0x8, addend: 0x0, symName: _MovieNetworkProviderVersionString, symObjAddr: 0x0, symBinAddr: 0x4020, symSize: 0x0 }
+  - { offset: 0x2931D, size: 0x8, addend: 0x0, symName: _MovieNetworkProviderVersionNumber, symObjAddr: 0x48, symBinAddr: 0x4068, symSize: 0x0 }
+  - { offset: 0x2935B, size: 0x8, addend: 0x0, symName: '_$s20MovieNetworkProvider10firstValueSSvg', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x1C }
+  - { offset: 0x29373, size: 0x8, addend: 0x0, symName: '_$s20MovieNetworkProvider10firstValueSSvg', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x1C }
+...
