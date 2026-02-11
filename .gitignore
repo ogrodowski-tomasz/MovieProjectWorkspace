@@ -1,0 +1,46 @@
+# Xcode
+.DS_Store
+*.xcworkspace/xcuserdata
+*.xcworkspace/contents.xcindex
+*.xcodeproj/project.xcworkspace/xcuserdata
+*.xcodeproj/xcuserdata
+*.xcodeproj/xcshareddata/WorkspaceSettings.xcsettings
+*.xcuserstate
+
+# Build folders
+build/
+DerivedData/
+*.xcarchive
+
+# Swift Package Manager
+.build/
+Packages/
+.swiftpm/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+Carthage/Checkouts/
+
+# Temporary files
+*.swp
+*.tmp
+*.swiftenv
+
+# Archive / artifacts
+*.ipa
+*.app
+*.xcframework
+
+# Logs
+*.log
+
+# User-specific settings
+*.moved-aside
+*.hmap
+
+# macOS
+*.DS_Store

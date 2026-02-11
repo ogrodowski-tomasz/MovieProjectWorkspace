@@ -1,12 +1,12 @@
 import Foundation
 
 public protocol MovieNetworkManagerProtocol {
-    func fetchMovies(language: String, page: Int) async throws -> MovieResponseModel
+    func fetchTopRated(language: String, page: Int) async throws -> MovieResponseModel
 }
 
 public extension MovieNetworkManagerProtocol {
-    func fetchMovies(language: String = "en-US", page: Int = 1) async throws -> MovieResponseModel {
-        try await fetchMovies(language: language, page: page)
+    func fetchTopRated(language: String = "en-US", page: Int = 1) async throws -> MovieResponseModel {
+        try await fetchTopRated(language: language, page: page)
     }
 }
 
@@ -19,7 +19,7 @@ public final class MovieNetworkManager: MovieNetworkManagerProtocol {
         self.networkService = networkService
     }
 
-    public func fetchMovies(language: String, page: Int) async throws -> MovieResponseModel {
-        try await networkService.request(endpoint: MovieEndpoint.topRated(page: page), responseType: MovieResponseModel.self)
+    public func fetchTopRated(language: String, page: Int) async throws -> MovieResponseModel {
+        try await networkService.request(endpoint: MovieEndpoint.topRated(language: language, page: page), responseType: MovieResponseModel.self)
     }
 }

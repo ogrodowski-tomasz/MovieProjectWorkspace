@@ -7,7 +7,7 @@ protocol AppEndpoint {
 }
 
 enum MovieEndpoint {
-    case topRated(page: Int)
+    case topRated(language: String, page: Int)
 }
 
 extension MovieEndpoint: AppEndpoint {
@@ -42,9 +42,9 @@ extension MovieEndpoint: AppEndpoint {
 
     var queryItems: [URLQueryItem]? {
         switch self {
-        case let .topRated(page):
+        case let .topRated(lang, page):
             return [
-                URLQueryItem(name: "language", value: "en-US"),
+                URLQueryItem(name: "language", value: lang),
                 URLQueryItem(name: "page", value: "\(page)"),
             ]
         }
@@ -55,9 +55,7 @@ extension MovieEndpoint: AppEndpoint {
         components.scheme = scheme
         components.host = host
         components.path = path
-        // TODO: Add queryItems handling for page or lang
-        // language=en-US&page=1
-        if let queryItems {
+        if let queryItems, !queryItems.isEmpty {
             components.queryItems = queryItems
         }
         return components.url
