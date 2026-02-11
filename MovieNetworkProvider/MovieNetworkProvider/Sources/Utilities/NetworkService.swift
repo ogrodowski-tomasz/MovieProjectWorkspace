@@ -1,18 +1,22 @@
 import Foundation
 
 public enum APIError: Error {
-    case invalidResponse
+    case invalidResponse(underlyingResponse: URLResponse)
+    case invalidURL(endpoint: AppEndpoint)
+    case invalidStatusCode(httpStatusCode: Int)
 }
 
 public final class NetworkService {
 
-    private let baseURL: URL
+    private let host: String
+    private let scheme: String
     private let client: AuthorizedNetworkClient
 
     public init(
         apiKey: String
     ) {
-        self.baseURL = URL(string: "https://api.themoviedb.org/3/")!
+        self.host = "api.themoviedb.org"
+        self.scheme = "https"
         self.client = AuthorizedNetworkClient(apiKey: apiKey)
     }
 
@@ -20,16 +24,29 @@ public final class NetworkService {
         endpoint: AppEndpoint,
         responseType: T.Type
     ) async throws -> T {
+        var components = URLComponents()
+        components.scheme = scheme
+        components.host = host
+        components.path = endpoint.path
+        if let queryItems = endpoint.queryItems, !queryItems.isEmpty {
+            components.queryItems = queryItems
+        }
 
-        let url = baseURL.appendingPathComponent(endpoint.path)
+        guard let url = components.url else {
+            throw APIError.invalidURL(endpoint: endpoint)
+        }
+
         var request = URLRequest(url: url)
         request.httpMethod = endpoint.method
 
         let (data, response) = try await client.perform(request)
 
-        guard let http = response as? HTTPURLResponse,
-              200..<300 ~= http.statusCode else {
-            throw APIError.invalidResponse
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIError.invalidResponse(underlyingResponse: response)
+        }
+
+        guard 200..<300 ~= httpResponse.statusCode else {
+            throw APIError.invalidStatusCode(httpStatusCode: httpResponse.statusCode)
         }
 
         return try JSONDecoder().decode(T.self, from: data)

@@ -19,7 +19,7 @@ struct ContentView: View {
         }
         .task {
             do {
-                movies = try await networkManager.fetchMovies().results
+                movies = try await networkManager.fetchTrending(type: .day, language: .polish, page: 1).results
             } catch {
                 print("DEBUG: ERROR \(error)")
             }

@@ -1,35 +1,39 @@
 import Foundation
 
-protocol AppEndpoint {
+public protocol AppEndpoint {
     var path: String { get }
     var method: String { get }
-
+    var queryItems: [URLQueryItem]? { get }
+    var stubDataFilename: String? { get }
 }
 
 enum MovieEndpoint {
     case topRated(language: String, page: Int)
+    case popular(language: String, page: Int)
+    case trending(type: String, language: String, page: Int)
 }
 
 extension MovieEndpoint: AppEndpoint {
 
-    var scheme: String {
-        "https"
-    }
-
-    var host: String {
-        "api.themoviedb.org"
-    }
-
     var method: String {
         switch self {
-        default: return "GET"
+        case .topRated:
+            "GET"
+        case .popular:
+            "GET"
+        case .trending:
+            "GET"
         }
     }
 
     var path: String {
         switch self {
         case .topRated:
-            return "movie/top_rated"
+            return "/3/movie/top_rated"
+        case .popular:
+            return "/3/movie/popular"
+        case let .trending(type,_,_):
+            return "/3/trending/movie/\(type)"
         }
     }
 
@@ -37,6 +41,10 @@ extension MovieEndpoint: AppEndpoint {
         switch self {
         case .topRated:
             return "MovieTopRatedStubData"
+        case .popular:
+            return nil
+        case .trending:
+            return nil
         }
     }
 
@@ -47,18 +55,17 @@ extension MovieEndpoint: AppEndpoint {
                 URLQueryItem(name: "language", value: lang),
                 URLQueryItem(name: "page", value: "\(page)"),
             ]
+        case let .popular(lang, page):
+            return [
+                URLQueryItem(name: "language", value: lang),
+                URLQueryItem(name: "page", value: "\(page)"),
+            ]
+        case let .trending(_, lang, page):
+            return [
+                URLQueryItem(name: "language", value: lang),
+                URLQueryItem(name: "page", value: "\(page)"),
+            ]
         }
-    }
-
-    var url: URL? {
-        var components = URLComponents()
-        components.scheme = scheme
-        components.host = host
-        components.path = path
-        if let queryItems, !queryItems.isEmpty {
-            components.queryItems = queryItems
-        }
-        return components.url
     }
 }
 
