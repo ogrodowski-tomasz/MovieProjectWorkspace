@@ -1,6 +1,6 @@
 # Xcode
 .DS_Store
-*.xcworkspace/xcuserdata
+*.xcworkspace/xcuserdata/
 *.xcworkspace/contents.xcindex
 *.xcodeproj/project.xcworkspace/xcuserdata
 *.xcodeproj/xcuserdata
